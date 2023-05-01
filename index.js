@@ -4,6 +4,10 @@ const sequelize = require("./config/connection")
 const app = express();
 const PORT = process.env.PORT ||3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 const Animal = require("./models/Animal")
 
 app.get("/",(req,res)=>{
@@ -18,6 +22,7 @@ app.get("/api/animals",(req,res)=>{
         res.status(500).json({msg:"error occurred",err})
     })
 })
+
 app.get("/api/animals/searchname/:name",(req,res)=>{
     Animal.findAll({
         where:{
@@ -42,12 +47,43 @@ app.get("/api/animals/:id",(req,res)=>{
 
 app.post("/api/animals",(req,res)=>{
     Animal.create({
-        name:"Racoony",
-        age:1,
-        species:"Raccoon",
-        notes:"raccoons are very bold."
+        name:req.body.name,
+        age:req.body.age,
+        species:req.body.species,
+        notes:req.body.notes
     }).then(newAni=>{
         res.json(newAni)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({msg:"error occurred",err})
+    })
+})
+
+app.put("/api/animals/:id",(req,res)=>{
+    Animal.update({
+        name:req.body.name,
+        age:req.body.age,
+        species:req.body.species,
+        notes:req.body.notes
+    },{
+        where:{
+            id:req.params.id
+        }
+    }).then(editAnim=>{
+        res.json(editAnim)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({msg:"error occurred",err})
+    })
+})
+
+app.delete("/api/animals/:id",(req,res)=>{
+    Animal.destroy({
+        where:{
+            id:req.params.id
+        }
+    }).then(delAnimal=>{
+        res.json(delAnimal)
     }).catch(err=>{
         console.log(err);
         res.status(500).json({msg:"error occurred",err})
