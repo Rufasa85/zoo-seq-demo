@@ -39,7 +39,7 @@ router.post("/",(req,res)=>{
       });
 })
 
-//TODO: Update
+//Update
 router.put("/:id",(req,res)=>{
     Zoo.update({
         name:req.body.name
