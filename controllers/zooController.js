@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const Zoo = require("../models/Zoo");
+const {Zoo,Animal} = require("../models/");
 const bcrypt = require("bcrypt");
 
 //find all
 router.get("/", (req, res) => {
-  Zoo.findAll()
+  Zoo.findAll({
+    include:[Animal]
+  })
     .then((zoos) => {
       res.json(zoos);
     })

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Animal = require('../models/Animal');
+const {Animal, Zoo} = require('../models');
 
 
 // router.get("/",(req,res)=>{
@@ -14,7 +14,21 @@ const Animal = require('../models/Animal');
 
 router.get("/", async(req,res)=>{
     try{
-        const animals= await Animal.findAll();
+        const animals= await Animal.findAll({
+            include:[Zoo]
+            // include:[{
+            //     model:Zoo,
+            //     include:[{
+            //         model:Animal,
+            //         include:[{
+            //             model:Zoo,
+            //             include:[{
+            //                 model:Animal,
+            //             }]
+            //         }]
+            //     }]
+            // }]
+        });
         if(animals.length===0){
             return res.status(404).json({msg:"no animals in database!"})
         }

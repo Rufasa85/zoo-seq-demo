@@ -1,6 +1,8 @@
 const sequelize = require("../config/connection");
-const Animal = require("../models/Animal");
-const Zoo = require("../models/Zoo");
+// const modelObj  = require("../models")
+// const Zoo = modelObj.Zoo;
+// const Animal = modelObj.Animal;
+const {Zoo,Animal} = require("../models")
 
 const zoos = [
     {
@@ -20,17 +22,23 @@ const animals = [
     {
         name:"Turtly",
         species:"turtle",
-        age:100
+        age:100,
+        ZooId:1,
+        notes:"slow"
     },
     {
         name:"Prickly",
         species:"procupine",
-        age:5
+        age:5,
+        ZooId:1,
+        notes:"sharp"
     },
     {
         name:"Barbara",
         species:"Bonobo",
-        age:25
+        age:25,
+        ZooId:2,
+        notes:"humanesque ape"
     },
 ]
 
