@@ -7,11 +7,14 @@ Animal.init({
     // add properites here, ex:
     name: {
          type: DataTypes.STRING,
-         allowNull:false
+         allowNull:false,
     },
     age:{
         type:DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        validate:{
+            min:0
+        }
     },
     species:{
         type:DataTypes.STRING,

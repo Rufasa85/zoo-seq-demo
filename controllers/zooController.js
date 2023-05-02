@@ -29,7 +29,8 @@ router.get("/:id",(req,res)=>{
 //Create
 router.post("/",(req,res)=>{
     Zoo.create({
-        name:req.body.name
+        name:req.body.name,
+        password:req.body.password
     }) .then((newZoo) => {
         res.json(newZoo);
       })
