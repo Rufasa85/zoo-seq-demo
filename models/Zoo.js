@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const bcrypt = require("bcrypt");
 
 class Zoo extends Model {}
 
@@ -18,7 +19,14 @@ Zoo.init({
         }
     }
 },{
-    sequelize
+    sequelize,
+    hooks:{
+        beforeCreate: zooObj=>{
+            console.log(zooObj)
+            zooObj.password = bcrypt.hashSync(zooObj.password,3);
+            return zooObj;
+        }
+    }
 });
 
 module.exports=Zoo

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Zoo = require("../models/Zoo");
+const bcrypt = require("bcrypt")
 
 
 //find all
