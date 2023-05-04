@@ -3,31 +3,10 @@ const router = express.Router();
 const {Animal, Zoo} = require('../models');
 
 
-// router.get("/",(req,res)=>{
-//     Animal.findAll().then(animals=>{
-//         res.json(animals)
-//     }).catch(err=>{
-//         console.log(err);
-//         res.status(500).json({msg:"error occurred",err})
-//     })
-// })
-
 router.get("/", async(req,res)=>{
     try{
         const animals= await Animal.findAll({
             include:[Zoo]
-            // include:[{
-            //     model:Zoo,
-            //     include:[{
-            //         model:Animal,
-            //         include:[{
-            //             model:Zoo,
-            //             include:[{
-            //                 model:Animal,
-            //             }]
-            //         }]
-            //     }]
-            // }]
         });
         if(animals.length===0){
             return res.status(404).json({msg:"no animals in database!"})
@@ -72,7 +51,8 @@ router.post("/",(req,res)=>{
         name:req.body.name,
         age:req.body.age,
         species:req.body.species,
-        notes:req.body.notes
+        notes:req.body.notes,
+        ZooId:req.body.ZooId
     }).then(newAni=>{
         res.json(newAni)
     }).catch(err=>{
