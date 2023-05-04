@@ -17,18 +17,6 @@ router.get("/", (req, res) => {
     });
 });
 
-//find one
-
-router.get("/:id", (req, res) => {
-  Zoo.findByPk(req.params.id)
-    .then((zooData) => {
-      res.json(zooData);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ msg: "error occurred", err });
-    });
-});
 //Create
 router.post("/", (req, res) => {
   Zoo.create({
@@ -61,6 +49,8 @@ router.post("/login", (req, res) => {
       }
       //compare provided password with database password
       if(bcrypt.compareSync(req.body.password,foundZoo.password)){
+        req.session.userId = foundZoo.id;
+        req.session.zooName=foundZoo.name;
         return res.json(foundZoo);
       } else {
         return res.status(401).json({msg:"invalid username/password"})
@@ -72,6 +62,10 @@ router.post("/login", (req, res) => {
     });
 });
 
+router.get("/logout",(req,res)=>{
+  req.session.destroy();
+  res.json(req.session);
+})
 //Update
 router.put("/:id", (req, res) => {
   Zoo.update(
@@ -108,5 +102,17 @@ router.delete("/:id", (req, res) => {
       res.status(500).json({ msg: "error occurred", err });
     });
 });
+router.get("/:id", (req, res) => {
+  Zoo.findByPk(req.params.id)
+    .then((zooData) => {
+      res.json(zooData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ msg: "error occurred", err });
+    });
+});
+
+
 
 module.exports = router;

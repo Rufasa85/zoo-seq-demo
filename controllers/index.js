@@ -17,6 +17,14 @@ router.get("/sessioncolor/:color",(req,res)=>{
     res.json(req.session);
 })
 
+router.get("/protecc",(req,res)=>{
+    if(!req.session.userId){
+        return res.status(403).json({msg:"login to see the clubhouse!"})
+    } else {
+        res.send(`welcome to the club, ${req.session.zooName}`)
+    }
+})
+
 router.use("/api/animals",animalRoutes)
 router.use("/api/zoos",zooRoutes)
 

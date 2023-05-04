@@ -47,12 +47,15 @@ router.get("/:id",(req,res)=>{
 })
 
 router.post("/",(req,res)=>{
+    if(!req.session.userId){
+        return res.status(403).json({msg:"login first you knucklehead!"})
+    } 
     Animal.create({
         name:req.body.name,
         age:req.body.age,
         species:req.body.species,
         notes:req.body.notes,
-        ZooId:req.body.ZooId
+        ZooId:req.session.userId
     }).then(newAni=>{
         res.json(newAni)
     }).catch(err=>{
